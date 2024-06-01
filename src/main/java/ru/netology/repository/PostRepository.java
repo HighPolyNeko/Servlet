@@ -5,9 +5,11 @@ import ru.netology.model.Post;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 // Stub
 public class PostRepository {
+    private AtomicLong lastId = new AtomicLong(0);
     private final Map<Long, Post> repository = new ConcurrentHashMap<>();
 
     public Map<Long, Post> all() {
@@ -19,7 +21,7 @@ public class PostRepository {
     }
 
     public Post save(Post post) {
-        repository.put(post.getId(), post);
+        repository.put(lastId.getAndAdd(1), post);
         return post;
     }
 
